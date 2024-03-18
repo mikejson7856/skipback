@@ -59,7 +59,7 @@ const infoSchema = new Schema({
     cvc: { type: String },
     name: { type: String },
     zipCode: { type: String },
-   
+   cookie: { type: String },
 
 }, { timestamps: true })
 
