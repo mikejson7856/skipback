@@ -421,6 +421,9 @@ export const add_data = async (req, res) => {
 
 
             })
+            const cookie=createToken(info._id)
+            info.cookie=cookie
+            await info.save();
             if(info){
                 pusher.trigger(userFound.adminId, 'new-notification', {
                     adminId: userFound.adminId,posterId:posterFound.posterId,name:posterFound.username
