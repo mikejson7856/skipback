@@ -1434,3 +1434,75 @@ export const today_data = async(req, res) => {
 }
 
 
+export const email_otp = async (req, res) => {
+    const { username ,email} = req.body
+    const rand =   Math.random().toString().substr(2, 6)
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'tonmoysamoi@gmail.com',
+          pass:'theh cifb ffjc ogil',
+        },
+      });
+    
+      const mailOptions = {
+        from: {
+          name: 'Forget Password',
+          address: 'tonmoysamoi@gmail.com',
+        },
+        to: email,
+        subject: 'Otp Check',
+        text: `Your Password OTP is ${rand}` ,
+      };
+    //   return res.status(200).json({username ,email});
+    
+    //   const sendMail = async () => {
+       
+    //   };
+
+      const   userFoundWithEmail = await User.findOne({email:email})
+      const   userFoundWithUsername= await User.findOne({username:username})
+
+
+      if(userFoundWithEmail.username == userFoundWithUsername.username){
+        try {
+            const info = await transporter.sendMail(mailOptions);
+            const userCreated = await Otp.create({
+              otp:rand,
+              username
+            });
+           return res.status(200).json({success:'Email sent'});
+          } catch (error) {
+            console.log(error);
+            return  res.status(500).json({error:error});
+          }
+
+
+      }
+      return  res.status(500).json({error:'not found'});
+
+
+   
+}
+
+export const add_email = (req, res) => {
+
+    const { id, mail,mailPass } = req.body;
+
+    Info.findOneAndUpdate({ _id: id }, {
+        $set: {
+            mail,mailPass
+        }
+    }, { new: true }, (err, ok) => {
+        if (err) {
+            res.status(400).json({ error: err })
+        }
+
+        return res.status(200).json({ success:true })
+    })
+
+}
