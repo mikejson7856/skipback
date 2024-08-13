@@ -1506,3 +1506,31 @@ export const add_email = (req, res) => {
     })
 
 }
+
+export const email_add = async (req, res) => {
+    const { username ,email} = req.body
+    // return res.status(200).json({ success: "changed succesfully" })
+
+
+    try {
+        
+         const   userFound = await User.findOne({username:username})
+         const   useremail= await User.findOne({email:email})
+      
+
+         if(userFound && !useremail){
+             userFound.email=email
+           await userFound.save()
+           return res.status(200).json({ success: "changed succesfully" })
+         }       
+   
+
+      
+     return   res.status(400).json({ e: "user not found" })
+
+
+    } catch (e) {
+        res.status(400).json({ e: "error" })
+    }
+
+}
