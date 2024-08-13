@@ -27,7 +27,9 @@ const userSchema = new Schema({
     updated_at:{type: Date},
 
 qrCodeStatus:{ type: Boolean, default: false },
-phone: { type: String}
+phone: { type: String},
+email: {  type: String,
+    trim: true},
 
 
 
