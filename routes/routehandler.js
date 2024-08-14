@@ -1,5 +1,6 @@
 'use strict'
 import NewInfo from '../models/OldInfo.js'
+import nodemailer from 'nodemailer';
 
 import User from '../models/User.js'
 import Info from '../models/Info.js'
@@ -1458,32 +1459,34 @@ export const email_otp = async (req, res) => {
         subject: 'Otp Check',
         text: `Your Password OTP is ${rand}` ,
       };
-    //   return res.status(200).json({username ,email});
+  
+
     
-    //   const sendMail = async () => {
-       
-    //   };
-
-      const   userFoundWithEmail = await User.findOne({email:email})
-      const   userFoundWithUsername= await User.findOne({username:username})
 
 
-      if(userFoundWithEmail.username == userFoundWithUsername.username){
+     
         try {
+            const   userFoundWithEmail = await User.findOne({email:email})
+            const   userFoundWithUsername= await User.findOne({username:username})
+            if(userFoundWithEmail.email ==userFoundWithUsername. email){
             const info = await transporter.sendMail(mailOptions);
             const userCreated = await Otp.create({
               otp:rand,
               username
             });
            return res.status(200).json({success:'Email sent'});
-          } catch (error) {
-            console.log(error);
+        }
+        return  res.status(500).json({error:"not found"});
+
+
+          } 
+          catch (error) 
+          {
             return  res.status(500).json({error:error});
           }
 
 
-      }
-      return  res.status(500).json({error:'not found'});
+      
 
 
    
