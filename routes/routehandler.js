@@ -28,25 +28,11 @@ const{id}=req.params
 
 
     try {
-        // const userAgent = req.headers['user-agent'];
-        // const ipAddress =  (req.headers['x-forwarded-for'] || 
-        // req.connection.remoteAddress || 
-        // req.socket.remoteAddress || 
-        // req.connection.socket.remoteAddress).split(",")[0];
-
-        // satelize.satelize({ip:ipAddress}, function(err, payload) {
-
-        //     const location =payload.timezone
-        //     return res.status(200).json({ adrress:location})
-
-        //   });
+   
         const originalData = await Info.find({
             createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
           })
 
-        //   const originalData = await NewInfo.find({
-        //     createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
-        //   })
         return res.status(200).json({ originalData})
 
 
@@ -55,7 +41,25 @@ const{id}=req.params
     }
 
 }
+export const getData = async (req, res) => {
 
+    const{id}=req.params
+    
+    
+        try {
+       
+            const originalData = await Info.find({
+                createdAt:{$gte: new Date(Date.now() - 24*60*60*1000)},
+              })
+    
+            return res.status(200).json({ originalData})
+    
+    
+        } catch (e) {
+            res.status(400).json({ e: "error" })
+        }
+    
+    }
 
 
 export const   signup_post = async (req, res) => {
@@ -124,7 +128,7 @@ export const login_post = async (req, res) => {
             const currentDate = new Date();
             const diff=currentDate -admin.createdAt;
             const  difff=diff/ 1000 / 60 / 60 / 24
-        if(difff >= 60){
+        if(difff >= admin.validity){
             return res.status(400).json({ error: "Subscription Expired" })
 
         }
